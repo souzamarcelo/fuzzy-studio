@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>FuzzyStudio - Marcelo de Souza</title>
+        
+        <h:outputStylesheet name="../estilo/geral.css"/>
+        <h:outputStylesheet name="../estilo/projeto.css"/>
+        <h:outputStylesheet name="../estilo/index.css"/>
+        <h:outputStylesheet name="../estilo/edicao.css"/>
+        
+        <h:outputScript library="javax.faces" name="jsf.js" />
+        <h:outputScript name="../javascript/controle_interface.js" />
+        <h:outputScript name="../javascript/kinetic.js" />
+        
+        <script type="text/javascript" src="../dwr/engine.js"> </script>
+        <script type="text/javascript" src="../dwr/util.js"> </script>
+        <script type="text/javascript" src="../dwr/interface/ClasseInterface.js"> </script>
+        <script type="text/javascript" src="../dwr/interface/ControlaConectados.js"> </script>
+        
+    </h:head>
+    
+    <h:body style="background: slategray;">
+        <p:growl id="growl" showDetail="true" life="3000" />
+        <p:dialog appendToBody="true"
+                          closable="false"
+                          draggable="true"
+                          header="Fuzzy Control Language - Motor de Inferência (Sistema Fuzzy)"
+                          modal="true"
+                          rendered="true"
+                          visible="true"
+                          height="600"
+                          width="1000"
+                          maximizable="true">
+            
+            <div id="fcl_esquerda">
+                <p:inputTextarea value="#{execucaoBean.showFCL}" cols="100" styleClass="textFCL"/>
+            </div>
+            
+            <div id="fcl_direita">
+                <center>
+                <h:form>
+                    
+                    <p:slideMenu style="width: 200px; height: 30px;">
+                        <p:menuitem value="Fechar" action="#{execucaoBean.chamaExecucao()}" ajax="false" />
+                    </p:slideMenu>                    
+                </h:form>
+                </center>
+            </div>
+        
+            
+        </p:dialog>
+        
+        <h:form id="form">
+            <center>
+                <h:inputHidden value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoEdicao" size="1" readonly="true"/>
+                <h:inputHidden value="#{aplicacaoBean.usuario.codigo}" id="userLogadoEdicao" size="1" readonly="true"/>
+            </center>
+        </h:form>
+    </h:body>
+</html>
+
+

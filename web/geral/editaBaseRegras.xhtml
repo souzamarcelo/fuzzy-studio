@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptedicao.xhtml">
+        <ui:define name="editaoque">Base de Regras do Sistema Fuzzy</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            
+            <p:panelGrid columns="1" style="width:100%;">
+                
+                <h:form id="formulario">
+                    <center>
+                    <h:panelGrid columns="2">
+                        <h:panelGroup styleClass="semBorda">
+                            <center>
+                            <h:panelGrid columns="2" styleClass="semBorda">
+                                <h:outputText value="Conector"/>
+                                <p:selectOneMenu id="conector" label="adiciona" required="false"
+                                                style="width: 100px;" value="#{regraBean.base.conector}">
+
+                                    <f:selectItem itemLabel="E (AND)" itemValue="and"/>
+                                    <f:selectItem itemLabel="OU (OR)" itemValue="or"/>
+
+                                </p:selectOneMenu>
+                            </h:panelGrid><hr/>
+                            </center>
+                            
+                            <h:panelGrid columns="2">
+                                <p:dataTable id="tabEntradas" editable="true" var="entrada" value="#{regraBean.retornaEntradas(aplicacaoBean.projeto.codigo)}" paginator="false">
+
+                                    <f:facet name="header">
+                                        Monte o ANTECEDENTE da regra
+                                    </f:facet>
+
+                                    <p:column style="width: 100px;">
+                                        <h:outputText value="#{entrada.nome}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <center>
+                                            <p:selectOneMenu id="termo" style="width: 200px;" value="#{entrada.termo}"
+                                                    label="valor" required="false" requiredMessage="Variável Obrigatória">
+                                            
+                                                <f:selectItems value="#{regraBean.retornaTermosDaEntrada(entrada.codigo)}" 
+                                                    var="termoentrada"
+                                                    itemValue="#{termoentrada.nome}"
+                                                    itemLabel="#{termoentrada.nome}"/> 
+                                            </p:selectOneMenu>
+                                        </center>
+                                    </p:column>
+
+                                </p:dataTable>
+                                
+                                <p:dataTable id="tabSaidas" editable="true" var="saida" value="#{regraBean.retornaSaidas(aplicacaoBean.projeto.codigo)}" paginator="false">
+
+                                    <f:facet name="header">
+                                        Monte o CONSEQUENTE da regra
+                                    </f:facet>
+
+                                    <p:column style="width: 100px;">
+                                        <h:outputText value="#{saida.nome}" />
+                                    </p:column>
+
+                                    <p:column>
+                                        <center>
+                                            <p:selectOneMenu id="termo" style="width: 200px;" value="#{saida.termo}"
+                                                    label="valor" required="false" requiredMessage="Variável Obrigatória">
+                                            
+                                                <f:selectItems value="#{regraBean.retornaTermosDaSaida(saida.codigo)}" 
+                                                    var="termosaida"
+                                                    itemValue="#{termosaida.nome}"
+                                                    itemLabel="#{termosaida.nome}"/> 
+                                            </p:selectOneMenu>
+                                        </center>
+                                    </p:column>
+
+                                </p:dataTable>
+                                    
+                            </h:panelGrid>
+                        </h:panelGroup>
+                        
+                        
+                        <f:facet name="footer">
+                            <center>
+                            <h:form>
+                                <p:commandButton id="btSalvarParcial" value="Adicionar Regra" ajax="false" 
+                                                 action="#{regraBean.salvar()}">
+                                    <f:setPropertyActionListener value="#{aplicacaoBean.projeto}" target="#{regraBean.base.projeto}"/>
+                                </p:commandButton>
+                                
+                            </h:form>
+                            </center>
+                        </f:facet>
+                    </h:panelGrid>
+                    </center>
+                </h:form>
+                
+                <h:panelGroup>
+                    <h:form>
+                    <p:dataTable id="tabelaRegras" var="regra" value="#{regraBean.retornaBasesPeloProjeto(aplicacaoBean.projeto.codigo)}" paginator="false">
+                        <f:facet name="header">
+                            Regras criadas
+                        </f:facet>
+
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Antecedente" />
+                            </f:facet>
+                            <h:outputText value="#{regra.descricaoAntecedente}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Consequente" />
+                            </f:facet>
+                            <h:outputText value="#{regra.descricaoConsequente}" />
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ações" />
+                            </f:facet>
+                            <p:commandButton value="Excluir" action="#{regraBean.excluir()}" ajax="false"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                    </h:form>
+                </h:panelGroup>
+                <h:outputText/>
+                
+                 <f:facet name="footer">
+                    <center>
+                    <h:form>
+                        <p:commandButton id="btFechar" value="Fechar" action="#{regraBean.cancelar()}" ajax="false"/>
+                    </h:form>
+                    </center>
+                </f:facet>
+                
+            </p:panelGrid>
+            <h:form id="form">
+            <center>
+                <h:inputHidden value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoEdicao" size="1" readonly="true"/>
+                <h:inputHidden value="#{aplicacaoBean.usuario.codigo}" id="userLogadoEdicao" size="1" readonly="true"/>
+            </center>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

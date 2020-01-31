@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptinicial.xhtml">
+        <ui:define name="editaoque">Tela de Login</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            <p:panelGrid columns="1">
+                <h:form>
+                    <p:panelGrid columns="2" styleClass="semBorda">
+
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText value="#{aplicacaoBean.usuario.user}" 
+                                        id="username" required="true" label="minimo"
+                                        requiredMessage="Username obrigatório"
+                                        size="50"/>
+
+                        <h:outputLabel for="senha" value="Senha:" />
+                        <p:password value="#{aplicacaoBean.usuario.senha}" 
+                                        id="senha" required="true" label="maximo"
+                                        requiredMessage="Senha obrigatória"
+                                        size="50" feedback="false"/>
+
+                     
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton id="btSalvar" value="Entrar" update=":growl" ajax="false"
+                                                 action="#{aplicacaoBean.login(conectadosBean)}"/>
+                                
+                                <p:commandButton id="btCancelar" value="Voltar" action="#{aplicacaoBean.login_voltar()}" immediate="true" ajax="false"/>
+                            </center>
+                        </f:facet>
+                    </p:panelGrid>
+                </h:form>
+            </p:panelGrid>
+            
+            <p:panelGrid columns="1" styleClass="semBorda">
+            <center>
+                <h:form>
+                    Não possui usuário e senha? <h:commandLink value="Cadastre-se" action="editaUsuario.xhtml"/>.
+                </h:form>
+            </center>
+            </p:panelGrid>
+        </ui:define>
+    </ui:composition>
+</html>

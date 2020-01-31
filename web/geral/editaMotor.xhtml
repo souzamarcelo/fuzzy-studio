@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptedicao.xhtml">
+        <ui:define name="editaoque">Motor de Inferência</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            <p:panelGrid columns="1">
+                <h:form>
+                    
+                    <p:panelGrid columns="1" styleClass="semBorda">
+                        
+                        <f:facet name="header">
+                            <h:outputText value="Configurações do motor de inferência"/>
+                        </f:facet>
+                        
+                        <h:panelGroup>
+                            <p:panelGrid columns="1">
+                                
+                                <h:panelGroup>
+                                    <h:outputText value="Identificador / Nome:  "/>
+                                    <p:inputText value="#{motorInferenciaBean.motor.nome}" size="60"/>
+                                </h:panelGroup>
+                                
+                                <br/>
+                                <h:outputText value="Método de Defuzzificação:" class="texto_opcao_motor"/>
+                                <p:selectOneRadio value="#{motorInferenciaBean.motor.metodo_defuzzificacao}"
+                                                  required="true" requiredMessage="Método de Defuzzificação obrigatório">
+                                    <f:selectItem itemLabel="Centro da Gravidade" itemValue="COG"/>
+                                    <f:selectItem itemLabel="Right Most Max" itemValue="RM"/>
+                                    <f:selectItem itemLabel="Centro da Área" itemValue="COA"/>
+                                    <f:selectItem itemLabel="Left Most Max" itemValue="LM"/>
+                                </p:selectOneRadio>
+                                
+                                <br/>
+                                <h:outputText value="Método de Agregação de Regras:" class="texto_opcao_motor"/>
+                                <p:selectOneRadio value="#{motorInferenciaBean.motor.metodo_agregacao_regras}"
+                                                  required="true" requiredMessage="Método de Agregação Obrigatório">
+                                    <f:selectItem itemLabel="Soma Limitada (BoundedSum)" itemValue="BSUM"/>
+                                    <f:selectItem itemLabel="Máximo (Max)" itemValue="MAX"/>
+                                    <f:selectItem itemLabel="Soma (Sum)" itemValue="SUM"/>
+                                    <f:selectItem itemLabel="Soma Normalizada (NormedSum)" itemValue="NSUM"/>
+                                </p:selectOneRadio>
+                                
+                                <br/>
+                                <h:outputText value="Conexão AND:" class="texto_opcao_motor"/>
+                                <p:selectOneRadio value="#{motorInferenciaBean.motor.conexao_and}"
+                                                  required="true" requiredMessage="Conexão AND obrigatória">
+                                    <f:selectItem itemLabel="Mínimo" itemValue="MIN"/>
+                                    <f:selectItem itemLabel="Produto" itemValue="PROD"/>
+                                    <f:selectItem itemLabel="Soma Limitada" itemValue="BDIF"/>
+                                </p:selectOneRadio>
+                                
+                                <br/>
+                                <h:outputText value="Método de Ativação de Regras:" class="texto_opcao_motor"/>
+                                <p:selectOneRadio value="#{motorInferenciaBean.motor.metodo_ativacao_regras}"
+                                                  required="true" requiredMessage="Método de Ativação obrigatório">
+                                    <f:selectItem itemLabel="Mínimo (Min)" itemValue="MIN"/>
+                                    <f:selectItem itemLabel="Produto" itemValue="PROD"/>
+                                </p:selectOneRadio>
+                                
+                                <p:panel header="Escolha as regras deste motor">
+                                    <p:selectManyCheckbox value="#{motorInferenciaBean.codigosregras}" style="width: 800px;" layout="pageDirection">
+                                    <f:selectItems value="#{motorInferenciaBean.bases}"
+                                                var="regra"
+                                                itemValue="#{regra.codigo}"
+                                                itemLabel="#{regra.descricaoAntecedente} ===> #{regra.descricaoConsequente}"/>
+                                    </p:selectManyCheckbox>
+                                </p:panel>
+                            </p:panelGrid>
+                        </h:panelGroup>
+
+                        <!--<p:selectManyMenu value="" style="width: 800px; height: 200px;">
+
+                            <f:selectItems value=""
+                                            var="regra"
+                                            itemValue=""
+                                            itemLabel=" ===> "/>
+                        </p:selectManyMenu>-->
+
+                        <f:facet name="footer">
+                            <center>
+                                
+                                <p:commandButton id="btSalvar" value="Salvar" update=":growl" ajax="false" 
+                                                 action="#{motorInferenciaBean.salvar()}">
+                                    <f:setPropertyActionListener value="#{aplicacaoBean.projeto}" target="#{motorInferenciaBean.motor.projeto}"/>
+                                </p:commandButton>
+                                
+                                <p:commandButton id="btCancelar" value="Fechar" action="#{motorInferenciaBean.cancelar()}" immediate="true" ajax="false"/>
+                            </center>
+                        </f:facet>
+                    </p:panelGrid>
+                    <br/>
+                    <h:form>
+                        <p:dataTable id="tabelaMotores" var="motor" value="#{motorInferenciaBean.retornaMotoresPeloProjeto(aplicacaoBean.projeto.codigo)}" paginator="false">
+                
+                        
+                        
+                        <f:facet name="header">
+                            Motores criados
+                        </f:facet>
+
+                        
+                        <p:column style="width: 500px;">
+                            <f:facet name="header">
+                                <h:outputText value="Identificador" />
+                            </f:facet>
+                            <h:outputText value="#{motor.nome}" />
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ações" />
+                            </f:facet>
+                            <p:commandButton id="btEditar" value="Editar" action="#{motorInferenciaBean.editar()}" ajax="false" immediate="true"/>
+                            <p:commandButton id="btEditar2" value="Excluir" action="#{motorInferenciaBean.excluir()}" ajax="false" immediate="true"/>
+                        </p:column>
+                        
+                        
+                        
+                        
+                        
+                    </p:dataTable>
+                    </h:form>
+                    
+                </h:form>
+            </p:panelGrid>
+            
+            <h:form id="form">
+            <center>
+                <h:inputHidden value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoEdicao" size="1" readonly="true"/>
+                <h:inputHidden value="#{aplicacaoBean.usuario.codigo}" id="userLogadoEdicao" size="1" readonly="true"/>
+            </center>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

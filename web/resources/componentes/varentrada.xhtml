@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:cc="http://java.sun.com/jsf/composite"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:p="http://primefaces.org/ui">
+ 
+ <cc:interface>     
+     <cc:attribute name="nomeVariavel" required="true" />
+     <cc:attribute name="idComponente" required="true" />
+ </cc:interface>
+ 
+ <cc:implementation>
+     <p:panel id="#{cc.attrs.idComponente}" header="#{cc.attrs.nomeVariavel}" style="width: 220px;">
+        <h:panelGrid columns="1">
+            <h:panelGroup>
+                <p:commandButton image="ui-icon-wrench"/>
+                <p:commandButton icon="ui-icon-pencil"/>
+                <p:commandButton icon="ui-icon-close"/>
+                <p:commandButton icon="ui-icon-close"/>
+            </h:panelGroup>
+        </h:panelGrid>
+     </p:panel>
+     <p:draggable for="#{cc.attrs.idComponente}" containment="parent" />
+ </cc:implementation>
+</html>

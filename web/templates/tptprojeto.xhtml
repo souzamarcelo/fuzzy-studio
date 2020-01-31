@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+        <ui:composition template="../templates/tptgeral.xhtml">
+            <ui:define name="conteudo">
+                <div id="menu_superior">
+                <h:form>
+                    <p:toolbar>
+                        <p:toolbarGroup align="right">  
+                            <p:commandButton value="Fechar projeto" action="#{aplicacaoBean.fecharProjeto(execucaoBean, conectadosBean)}" icon="ui-icon-close" ajax="false"/>
+                            <p:commandButton value="Logout" action="#{aplicacaoBean.logout(execucaoBean, conectadosBean)}" icon="ui-icon-extlink" ajax="false"/> 
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </h:form>
+                    
+                </div>
+                
+                <div id="central">
+                    
+                    <div id="menu_lateral">
+                        
+                        <h:form id="formLateral">
+                            
+                            <p:toolbar>
+                                <p:toolbarGroup align="left" style="height: 595px;">
+                                    <br/><br/><br/><br/>
+                                    <center>
+                                    <p:commandButton id="btNovaEntrada" style="width: 150px;" value="Var Entrada" action="#{variavelEntradaBean.nova}" ajax="false"/>
+                                    <p:commandButton id="btNovaSaida" style="width: 150px;" value="Var Saida" action="#{variavelSaidaBean.nova}" ajax="false"/>
+                                    <p:commandButton id="btNovaBase" style="width: 150px;" value="Base de Regras" action="#{regraBean.nova(aplicacaoBean.projeto.codigo)}" ajax="false"/>
+                                    <p:commandButton id="btNovoMotor" style="width: 150px;" value="Motor de inferência" action="#{motorInferenciaBean.nova(aplicacaoBean.projeto.codigo)}" ajax="false"/>
+
+                                    <hr/>
+
+                                    <p:commandButton id="btExecutar" style="width: 150px;" value="Executar projeto" update=":growl"
+                                                    actionListener="#{execucaoBean.chamaExecucao}" ajax="false"/>
+                                    
+                                    <hr/>
+                                    
+                                    <br/><br/>
+                                    
+                                    <p:dataTable var="user" value="#{conectadosBean.retornaUsuarios(aplicacaoBean.projeto.codigo)}" id="tabelaConectados">  
+                                        <p:column headerText="Usuários conectados">
+                                            <h:graphicImage value="online.png" name="online.png" width="10" height="10"/>
+                                            <h:outputText id="nomeonline" value="#{user.nome}" style="margin-left: 5px;"/>
+                                            <p:tooltip for="nomeonline" showEffect="clip" hideEffect="explode" >
+                                                <h:panelGrid columns="2">
+                                                    <h:graphicImage value="skype.jpg" name="skype.jpg" width="30" height="20"/>
+                                                    <h:outputText value="#{user.skype}"/>
+                                                    
+                                                    <h:graphicImage value="gtalk.jpg" name="gtalk.jpg" width="30" height="30"/>
+                                                    <h:outputText value="#{user.gtalk}"/>
+                                                </h:panelGrid>
+                                            </p:tooltip>
+                                        </p:column>
+                                    </p:dataTable>
+                                    
+                                    </center>
+                                    <div style="text-align: right;">
+                                        <p:commandButton value="Atualizar" style="width: 100px;" action="#{execucaoBean.atualizaTabelaConectados()}" ajax="false"/>
+                                    </div>
+                                </p:toolbarGroup>
+                            </p:toolbar>
+                            
+                        </h:form>
+                            
+                        <p:growl id="growl" showDetail="true" life="3000" />
+
+                    </div>
+
+                    
+                    <div id="mesa">
+                        <p:tabView id="tabView" activeIndex="#{execucaoBean.tabindex}">
+                                   
+                            <p:tab id="tab1" title="Arquitetura">
+                                <ui:insert name="mesa" id="cmesa"></ui:insert>
+                            </p:tab>
+                            <p:tab id="tab2" title="Simulação">
+                                <ui:insert name="execucao" id="execucao"></ui:insert>
+                            </p:tab>
+
+                            <!--<p:tab id="tab3" title="Fuzzy Control Language" closable="true">
+                                <ui:insert name="log" id="log"></ui:insert>
+                            </p:tab>-->
+                            
+                            <p:tab id="tab4" title="Opções">
+                                <ui:insert name="opcoes" id="log"></ui:insert>
+                            </p:tab>
+                    </p:tabView>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>       
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptedicao.xhtml">
+        <ui:define name="editaoque">Dados do Projeto</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            
+            <p:panelGrid columns="1">
+                
+                <h:form>
+                    <p:panelGrid columns="2" styleClass="semBorda">
+
+                        <h:outputLabel for="criador" value="Criador:" />
+                        <p:inputText value="#{aplicacaoBean.usuario.nome}" 
+                                        id="criador" required="true" label="criador"
+                                        size="50" readonly="true"/>
+                        
+                        <h:outputLabel for="nome" value="Nome do projeto:" />
+                        <p:inputText value="#{projetoBean.projeto.nome}" 
+                                        id="nome" required="true" label="nome"
+                                        requiredMessage="Nome obrigatório"
+                                        size="50"/>
+
+                     
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton id="btSalvar" value="Cadastrar" update=":growl" ajax="false"
+                                                 action="#{projetoBean.salvar()}">
+                                
+                                    <f:setPropertyActionListener value="#{aplicacaoBean.usuario}" target="#{projetoBean.criador}"/>
+                                
+                                </p:commandButton>
+                                
+                                <p:commandButton id="btCancelar" value="Cancelar" action="#{projetoBean.cancelar()}" immediate="true" ajax="false"/>
+                            </center>
+                        </f:facet>
+
+                    </p:panelGrid>
+                </h:form>
+                
+            </p:panelGrid>
+            
+        </ui:define>
+    </ui:composition>
+</html>

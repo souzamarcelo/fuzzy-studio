@@ -1,0 +1,19 @@
+/* 
+    Document   : edicao
+    Created on : 24/08/2012, 15:54:31
+    Author     : marcelo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#menu_superior_edicao{
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid black;
+    text-align: center;
+    vertical-align: bottom;
+}

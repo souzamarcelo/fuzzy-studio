@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>FuzzyStudio - Marcelo de Souza</title>
+        
+        <h:outputStylesheet name="../estilo/index.css"/>
+        
+        <h:outputScript library="javax.faces" name="jsf.js" />
+        <h:outputScript name="../javascript/controle_interface.js" />
+        <h:outputScript name="../javascript/kinetic.js" />
+        
+        <script type="text/javascript" src="../dwr/engine.js"> </script>
+        <script type="text/javascript" src="../dwr/util.js"> </script>
+        <script type="text/javascript" src="../dwr/interface/ClasseInterface.js"> </script>
+        
+    </h:head>
+    
+    <h:body>
+        <p:growl id="growl" showDetail="true" life="3000" />
+        <div id="cabecalho_index">
+            <br/>
+            <span id="span_texto">
+                <h:form>
+                    Já é usuário? Faça <h:commandLink style="color: black;" value="login" action="#{aplicacaoBean.novo_login()}"/>. Se não, <h:commandLink value="cadastre-se" style="color: black;" action="geral/editaUsuario.xhtml"/>.
+                </h:form>
+            </span>
+        </div>
+        <div id="conteudo_index">
+            <center>
+                <h:graphicImage value="logogrande.png" name="logogrande.png"/>
+            </center>
+        </div>
+        
+        <div id="rodape_index">
+            <span id="span_texto">
+                Versão 1.0 - Última atualização 16/05/2013 (18:30)<br/>
+                Desenvolvido por Marcelo de Souza
+            </span>
+            
+        </div>
+    </h:body>
+    
+    
+</html>

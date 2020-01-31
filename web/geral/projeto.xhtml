@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    
+    
+    <ui:composition template="../templates/tptprojeto.xhtml">
+        <ui:define name="mesa">
+ 
+            <h:body>
+                <div id="campo_interface">
+                    <center>
+                        <canvas id="canvasmesa" width="800" height="500"></canvas>
+                        
+                        
+                        <div id="editaEntrada" hidden="true">
+                            <br/><br/>
+                            <p:panelGrid columns="2">
+                                
+                                <f:facet name="header">
+                                    <h:outputText value="Edição de Variáveis de Entrada"/>
+                                </f:facet>
+                                                       
+                                <h:outputText />
+                                <h:inputHidden id="entradaCodigo"/>
+
+                                <h:outputText value="Nome:"/>
+                                <p:inputText value="" id="entradaNome"/>
+                                
+                                <h:outputText value="Mínimo:"/>
+                                <p:inputText value="" id="entradaMinimo"/>
+                                
+                                <h:outputText value="Máximo:"/>
+                                <p:inputText value="" id="entradaMaximo"/>
+                                
+                                <h:outputText value="Unidade de medida:"/>
+                                <p:inputText value="" id="entradaUnidade"/>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Salvar" onclick="javascript:alteraEntrada();" id="entradaSalvar"/>
+                                    <p:button value="Cancelar" outcome="projeto.xhtml" id="entradaCancelar"/>
+                                </f:facet>
+                            
+                            </p:panelGrid>
+                        </div>
+                        
+                        <div id="editaSaida" hidden="true">
+                            <br/><br/>
+                            <p:panelGrid columns="2">
+                                
+                                <f:facet name="header">
+                                    <h:outputText value="Edição de Variáveis de Saída"/>
+                                </f:facet>
+                                                       
+                                <h:outputText />
+                                <h:inputHidden id="saidaCodigo"/>
+
+                                <h:outputText value="Nome:"/>
+                                <p:inputText value="" id="saidaNome"/>
+                                
+                                <h:outputText value="Mínimo:"/>
+                                <p:inputText value="" id="saidaMinimo"/>
+                                
+                                <h:outputText value="Máximo:"/>
+                                <p:inputText value="" id="saidaMaximo"/>
+                                
+                                <h:outputText value="Unidade de medida:"/>
+                                <p:inputText value="" id="saidaUnidade"/>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Salvar" onclick="javascript:alteraSaida();" id="saidaSalvar"/>
+                                    <p:button value="Cancelar" outcome="projeto.xhtml" id="saidaCancelar"/>
+                                </f:facet>
+                            
+                            </p:panelGrid>
+                        </div>
+                        
+                        <div id="editaMotor" hidden="true">
+                            <br/><br/>
+                            <p:panelGrid columns="2">
+                                
+                                <f:facet name="header">
+                                    <h:outputText value="Edição de Motoresde Inferência"/>
+                                </f:facet>
+                                
+                                <h:outputText />
+                                <h:inputHidden id="motorCodigo"/>
+
+                                <h:outputText value="Nome / Identificador:"/>
+                                <p:inputText value="" id="motorNome"/>
+                                
+                                <h:outputText value="Método de Defuzzificação:"/>
+                                <input type="radio" id="cog" name="metodo_defuz" value="COG" checked="false"/> Centro da Gravidade <br/>
+                                <input type="radio" id="rmm" name="metodo_defuz" value="RM" checked="false"/> Right Most Max <br/>
+                                <input type="radio" id="coa" name="metodo_defuz" value="COA" checked="false"/> Centro da Área <br/>
+                                <input type="radio" id="lmm" name="metodo_defuz" value="LM" checked="false"/> Left Most Max <br/>
+
+                                <h:outputText value="Método de Agregação de regras:"/>
+                                <input type="radio" id="boundedsum" name="metodo_agreg" value="BSUM" checked="false"/> Soma Limitada <br/>
+                                <input type="radio" id="max" name="metodo_agreg" value="MAX" checked="false"/> Máximo <br/>
+                                <input type="radio" id="sum" name="metodo_agreg" value="SUM" checked="false"/> Soma <br/>
+                                <input type="radio" id="normedsum" name="metodo_agreg" value="NSUM" checked="false"/> Soma Normalizada <br/>
+                                
+                                <h:outputText value="Conexão AND:"/>
+                                <input type="radio" id="and_min" name="conexao" value="MIN" checked="false"/> Mínimo <br/>
+                                <input type="radio" id="and_prod" name="conexao" value="PROD" checked="false"/> Produto <br/>
+                                <input type="radio" id="and_boundedsum" name="conexao" value="BDIF" checked="false"/> Soma Limitada <br/>
+                                
+                                <h:outputText value="Método de Ativação de Regras:"/>
+                                <input type="radio" id="ativ_min" name="ativacao" value="MIN" checked="false"/> Mínimo <br/>
+                                <input type="radio" id="ativ_prod" name="ativacao" value="PROD" checked="false"/> Produto <br/>
+                                
+                                <f:facet name="footer">
+                                    <p:commandButton value="Salvar" onclick="javascript:alteraMotor();" id="motorSalvar"/>
+                                    <p:button value="Cancelar" outcome="projeto.xhtml" id="motorCancelar"/>
+                                </f:facet>
+                            
+                            </p:panelGrid>
+                        </div>
+                        
+                    </center>
+                </div>
+                
+                <div id="div_edicao"></div>
+                
+                <center>
+                    <h:outputText value="PROJETO: "/>
+                    <h:outputText value="#{aplicacaoBean.projeto.nome}"/>
+                    <h:outputText value=" - ("/>
+                    <p:inputText value="#{aplicacaoBean.projeto.codigo}" id="codigoProjeto" size="1" readonly="true"/>
+                    <h:outputText value=")"/>
+                    <h:outputText value=" / "/>
+                    <h:outputText value="USUÁRIO: "/>
+                    <h:outputText value="#{aplicacaoBean.usuario.user}"/>
+                    <h:outputText value=" - ("/>
+                    <p:inputText value="#{aplicacaoBean.usuario.codigo}" id="userLogadoMesa" size="1" readonly="true"/>
+                    <h:outputText value=")"/>
+                </center>
+            </h:body>
+                            
+        </ui:define>
+
+        <ui:define name="execucao">
+            <br/>
+            <table>
+                <tr>
+                    <td style="width: 360px;">
+                        <!-- ========================================================================================== TABELA ENTRADAS -->
+                        <h:form>
+                            <center>
+                                <p:dataTable id="tablaEntradas" editable="true" style="width: 300px;" var="entrada" value="#{execucaoBean.retornaEntradas(aplicacaoBean.projeto.codigo)}" paginator="false">
+
+                                    <f:facet name="header">
+                                        Informe o valor das variáveis de entrada
+                                    </f:facet>
+
+
+                                    <p:column style="width:80%">
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome" />
+                                        </f:facet>
+                                        <h:outputText value="#{entrada.nome}" />
+                                    </p:column>
+
+                                    <p:column style="width:20%">
+                                        <f:facet name="header">
+                                            <h:outputText value="Valor" />
+                                        </f:facet>
+                                        <center>
+                                            <p:inputText value="#{entrada.valor}" size="5"/>
+                                        </center>
+                                    </p:column>
+
+                                </p:dataTable>
+                                <br/>
+
+                                <p:commandButton value="Executar sistema" actionListener="#{execucaoBean.executaTudo}" ajax="false"/>
+                            </center>
+                        </h:form>
+                    </td>
+                    <!-- ========================================================================================== TABELA MOTORES -->
+                    <td>
+                        <h:form>
+                            <p:dataTable id="tablaMotores" style="width: 500px;" var="motor" value="#{execucaoBean.retornaMotores(aplicacaoBean.projeto.codigo)}" paginator="false">
+
+                                <f:facet name="header">
+                                    Motores de Inferência disponíveis para execução
+                                </f:facet>
+
+
+                                <p:column style="width:20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Nome" />
+                                    </f:facet>
+                                    <h:outputText value="#{motor.nome}" />
+                                </p:column>
+
+                                <p:column style="width:40%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Resultado" />
+                                    </f:facet>
+                                    <center>
+                                        <p:inputTextarea value="#{motor.resultado}" cols="50" rows="5" autoResize="false" readonly="true" />
+                                    </center>
+                                </p:column>
+                                
+                                <p:column style="width:40%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Ações" />
+                                    </f:facet>
+                                    <p:commandButton value="Gráficos" action="#{execucaoBean.chamaGraficos(motor)}" ajax="false" immediate="true"/>
+                                    <p:commandButton value="FCL" action="#{execucaoBean.chamaFCL(motor)}" ajax="false" immediate="true"/>
+                                    <p:commandButton value="Java" action="#{execucaoBean.chamaJava(motor)}" ajax="false" immediate="true"/>
+                                    
+                                    <!--<p:dialog header="Fuzzy Control Language" dynamic="false" widgetVar="dlgFCL" showEffect="explode" hideEffect="explode" height="500" width="700" resizable="false" modal="true">  
+                                        <p:inputTextarea value="{execucaoBean.montaFCL(motor)}" cols="100"/>
+                                    </p:dialog>-->
+                                    
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
+                    </td>
+                </tr>
+            </table>
+            
+            <br/><br/><br/>
+            <center>
+                <h:outputText value="PROJETO: "/>
+                <h:outputText value="#{aplicacaoBean.projeto.nome}"/>
+                <h:outputText value=" - ("/>
+                <p:inputText value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoExecucao" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+                <h:outputText value=" / "/>
+                <h:outputText value="USUÁRIO: "/>
+                <h:outputText value="#{aplicacaoBean.usuario.user}"/>
+                <h:outputText value=" - ("/>
+                <p:inputText value="#{aplicacaoBean.usuario.codigo}" id="userLogadoExecucao" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+            </center>
+        </ui:define>
+        
+        <ui:define name="log">
+            <h:form>
+                <p:inputTextarea id="retorno_log" style="width: 100%; height: 400px;" value="#{execucaoBean.retorno_log}" readonly="true" autoResize="false"/>
+            </h:form>
+            
+            <center>
+                <h:outputText value="PROJETO: "/>
+                <h:outputText value="#{aplicacaoBean.projeto.nome}"/>
+                <h:outputText value=" - ("/>
+                <p:inputText value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoLog" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+                <h:outputText value=" / "/>
+                <h:outputText value="USUÁRIO: "/>
+                <h:outputText value="#{aplicacaoBean.usuario.user}"/>
+                <h:outputText value=" - ("/>
+                <p:inputText value="#{aplicacaoBean.usuario.codigo}" id="userLogadoLog" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+            </center>
+            
+            
+        </ui:define>
+        
+        <ui:define name="opcoes">
+            <h:form>
+                
+                <p:fieldset legend="Trabalho colaborativo" toggleable="true" toggleSpeed="500" collapsed="true">
+                    
+                    <h:panelGrid columns="1">
+                        <h:outputText value="Você pode compartilhar seu projeto com outros usuários." />
+                        
+                        <h:panelGrid columns="2">
+                            
+                            <p:commandButton id="btCompartilhar" value="Compartilhar" action="#{projetoBean.chamaCompartilhamento()}" title="Compartilhar" ajax="false">
+                                <f:setPropertyActionListener value="#{aplicacaoBean.projeto}" target="#{projetoBean.projeto}"/> 
+                                <f:setPropertyActionListener value="#{aplicacaoBean.usuario}" target="#{projetoBean.criador}"/> 
+                            </p:commandButton>
+                            
+                            <!--<p:button value="Usuários do projeto" outcome="conectados.xhtml?codProjetoConsulta={aplicacaoBean.projeto.codigo}"/>-->
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:fieldset>
+                <br/>
+                <p:fieldset legend="Exportar modelo" toggleable="true" toggleSpeed="500" collapsed="true">
+                    
+                    <p:commandButton value="Exportar como imagem" onclick="salvarCanvas();" />
+                    
+                </p:fieldset>
+                <br/>
+                
+            </h:form>
+            
+            <center>
+                <h:outputText value="PROJETO: "/>
+                <h:outputText value="#{aplicacaoBean.projeto.nome}"/>
+                <h:outputText value=" - ("/>
+                <p:inputText value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoOpcoes" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+                <h:outputText value=" / "/>
+                <h:outputText value="USUÁRIO: "/>
+                <h:outputText value="#{aplicacaoBean.usuario.user}"/>
+                <h:outputText value=" - ("/>
+                <p:inputText value="#{aplicacaoBean.usuario.codigo}" id="userLogadoOpcoes" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+            </center>
+            
+            
+            
+        </ui:define>
+    </ui:composition>
+</html>
+
+

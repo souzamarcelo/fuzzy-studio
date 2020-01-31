@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptinicial.xhtml">
+        <ui:define name="editaoque">Compartilhamento de Projeto</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            <h:form>
+            <p:panelGrid columns="1">
+                <p:panelGrid columns="1" styleClass="semBorda">
+                    
+                    <f:facet name="header">
+                        <h:outputText value="Escolha os usuários com os quais deseja compartilhar seu projeto"/>
+                    </f:facet>               
+
+                    <p:selectManyCheckbox value="#{projetoBean.usuariosSelecionados}" layout="pageDirection">
+                        <f:selectItems value="#{projetoBean.usuariosDoBanco}"
+                                    var="usuario"
+                                    itemValue="#{usuario.codigo}"
+                                    itemLabel="#{usuario.nome} (#{usuario.user})"/>
+                    </p:selectManyCheckbox>
+
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Salvar alterações" action="#{projetoBean.salvaCompartilhamento(aplicacaoBean.projeto)}" ajax="false"/>
+                        <p:commandButton value="Cancelar" action="#{projetoBean.cancelarCompartilhamento(aplicacaoBean.projeto)}" ajax="false"/>
+                    </f:facet>               
+                    
+
+                </p:panelGrid>
+            </p:panelGrid>
+            </h:form>
+                    
+            <p:panelGrid columns="1" styleClass="semBorda">
+            <center>
+                <h:form>
+                    Logado como: <b><h:outputText value="#{aplicacaoBean.usuario.nome} - #{aplicacaoBean.usuario.user}"/></b>
+                </h:form>
+            </center>
+            </p:panelGrid>
+        </ui:define>
+    </ui:composition>
+</html>

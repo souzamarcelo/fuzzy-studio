@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>FuzzyStudio - Marcelo de Souza</title>
+        
+        <h:outputStylesheet name="../estilo/geral.css"/>
+        <h:outputStylesheet name="../estilo/projeto.css"/>
+        <h:outputStylesheet name="../estilo/index.css"/>
+        <h:outputStylesheet name="../estilo/edicao.css"/>
+        
+        <h:outputScript library="javax.faces" name="jsf.js" />
+        <h:outputScript name="../javascript/controle_interface.js" />
+        <h:outputScript name="../javascript/kinetic.js" />
+        
+        <script type="text/javascript" src="../dwr/engine.js"> </script>
+        <script type="text/javascript" src="../dwr/util.js"> </script>
+        <script type="text/javascript" src="../dwr/interface/ClasseInterface.js"> </script>
+        
+    </h:head>
+    
+    <h:body style="background: slategray;">
+        <p:growl id="growl" showDetail="true" life="3000" />
+        <p:dialog appendToBody="true"
+                          closable="false"
+                          draggable="true"
+                          header="Usuários atualmente conectados ao projeto"
+                          modal="true"
+                          rendered="true"
+                          visible="true"
+                          height="300"
+                          width="500"
+                          maximizable="true">
+            
+            <p:dataTable value="#{conectadosBean.retornaUsuarios()}" var="usuario">
+            
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Usuário"/>
+                    </f:facet>
+                    
+                    <h:outputText value="#{usuario.nome}" />
+                </p:column>
+            
+            </p:dataTable>
+            
+            <f:facet name="footer">
+                <p:button value="Fechar" outcome="centralUsuario.xhtml" />
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+
+

@@ -1,0 +1,84 @@
+/* 
+    Document   : projeto
+    Created on : 26/07/2012, 21:54:59
+    Author     : marcelo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#menu_superior{
+    height: 35px;
+    width: 100%;
+}
+
+#menu_lateral{
+    height: auto;
+    width: 12%;
+    float: left;
+    margin-top: 5px;
+}
+
+#mesa{
+    height: 630px;
+    width: 87.6%;
+    float: right;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.semBorda tr, .semBorda td {
+    border: none !important;
+}
+
+#central{
+    height: 500px;
+    width: 100%;
+    border: none;
+}
+
+#campo_interface{
+    width: 100%;
+    height: 505px;
+}
+
+.var_entrada {
+    border: 2px solid green;
+    width: 100px;
+    height: 60px;
+    background: #F0F0FA;
+    cursor: move;
+    font-size: 10pt;
+}
+
+#tabela_campo td{
+    width: 100px;
+    height: 60px;
+    border: 1px solid black;
+    align: center;
+}
+
+#tabela_execucao td{
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.texto_opcao_motor{
+    font-weight: bold;
+}
+
+#canvasmesa{
+    border: 2px solid grey;
+}
+
+#fcl_esquerda{
+    float: left;
+}
+
+#fcl_direita{
+    float: right;
+    width: 400px;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="FSPU" transaction-type="JTA">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>FuzzyStudioDS</jta-data-source>
+    <class>br.udesc.modelo.TermoLinguisticoEntrada</class>
+    <class>br.udesc.modelo.TermoLinguisticoSaida</class>
+    <class>br.udesc.modelo.VariavelSaida</class>
+    <class>br.udesc.modelo.Antecedente</class>
+    <class>br.udesc.modelo.MotorInferencia</class>
+    <class>br.udesc.modelo.Usuario</class>
+    <class>br.udesc.modelo.VariavelEntrada</class>
+    <class>br.udesc.modelo.Projeto</class>
+    <class>br.udesc.modelo.Consequente</class>
+    <class>br.udesc.modelo.Regra</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

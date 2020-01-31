@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptinicial.xhtml">
+        <ui:define name="editaoque">Central de projetos do Usuário</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            <h:form>
+            <p:panelGrid columns="1" styleClass="semBorda">
+                
+                    <p:panelGrid columns="2" styleClass="semBorda">
+                        <p:panelGrid columns="1">
+                            <p:menu style="width: 250px;">  
+                                <p:submenu label="Projetos">  
+                                    <p:menuitem value="Novo" action="#{projetoBean.novo()}" icon="ui-icon-close" ajax="false"/>  
+                                </p:submenu>
+                                
+                                <p:submenu label="Usuário">  
+                                    <p:menuitem value="Alterar dados do usuário" action="#{usuarioBean.alteraDados()}" icon="ui-icon-disk" >
+                                        <f:setPropertyActionListener value="#{aplicacaoBean.usuario}" target="#{usuarioBean.usuario}"/>
+                                    </p:menuitem>
+                                </p:submenu>    
+                                
+                                <p:submenu label="Outras opções">  
+                                    <p:menuitem value="Logout" action="#{aplicacaoBean.logout(execucaoBean, conectadosBean)}" icon="ui-icon-close" ajax="false"/>
+                                </p:submenu>  
+                            </p:menu>
+                        </p:panelGrid>
+                        
+                        <p:panelGrid columns="1">
+                            
+                            <p:dataTable id="tabelaProjetos" var="projeto" value="#{aplicacaoBean.projetosModel}" paginator="false">
+
+
+
+                                <f:facet name="header">
+                                    Seus projetos
+                                </f:facet>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nome do projeto" />
+                                    </f:facet>
+                                    <h:outputText value="#{projeto.nome}" />
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Usuários conectados" />
+                                    </f:facet>
+                                    <h:link outcome="conectados.xhtml?codProjetoConsulta=#{projeto.codigo}">
+                                        <h:outputText value="#{conectadosBean.getUsuariosDoProjeto(projeto.codigo)}  usuário(s) conectado(s)" />
+                                    </h:link>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Ações" />
+                                    </f:facet>
+
+                                    <p:commandButton id="btAbrir" value="Abrir" action="#{aplicacaoBean.abrirProjeto(conectadosBean)}" icon="ui-icon-pencil" title="Abrir" ajax="false">
+                                    
+                                        <f:setPropertyActionListener value="#{projeto}" target="#{aplicacaoBean.projeto}"/>
+                                    
+                                    </p:commandButton>
+                                    
+                                    
+                                    <p:commandButton id="btCompartilhar" value="Compartilhar" action="#{projetoBean.chamaCompartilhamento()}" title="Compartilhar" ajax="false">
+                                        <f:setPropertyActionListener value="#{projeto}" target="#{projetoBean.projeto}"/> 
+                                        <f:setPropertyActionListener value="#{aplicacaoBean.usuario}" target="#{projetoBean.criador}"/> 
+                                    </p:commandButton>
+                                        
+
+                                    <p:commandButton id="btExcluir" value="Excluir" action="#{projetoBean.excluir(aplicacaoBean.usuario.codigo)}" icon="ui-icon-cancel" title="Excluir" ajax="false">
+                                    
+                                        <f:setPropertyActionListener value="#{projeto}" target="#{projetoBean.projeto}"/>
+                                        
+                                    </p:commandButton>
+                                        
+                                </p:column>
+
+                            </p:dataTable>
+                            
+                        </p:panelGrid>
+
+                    </p:panelGrid>
+                
+            </p:panelGrid>
+            </h:form>
+            <!--<center>
+                <h:outputText value="USUÁRIO: "/>
+                <h:outputText value="{aplicacaoBean.usuario.user}"/>
+                <h:outputText value=" - ("/>
+                <h:inputText id="userLogado" value="{aplicacaoBean.usuario.codigo}" size="1" readonly="true"/>
+                <h:outputText value=")"/>
+            </center>-->
+        </ui:define>
+    </ui:composition>
+</html>

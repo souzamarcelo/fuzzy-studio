@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptedicao.xhtml">
+        <ui:define name="editaoque">Termos Linguísticos das Variáveis de Entrada (Funções de Pertinência)</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            <p:panelGrid columns="3">
+                            
+                <h:form>
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">
+                            Variável Selecionada
+                        </f:facet>
+                        <h:panelGroup>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.variavelEntrada.codigo}" readonly="true" size="1" binding="#{graficosEntradaBean.inputcodvar}"/>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.variavelEntrada.codigo}" readonly="true" size="1"/>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.variavelEntrada.nome}" readonly="true" binding="#{termoLinguisticoEntradaBean.inputVariavel}" size="7"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <br/><br/>
+                    <p:dataTable id="dataTable" var="termo" value="#{termoLinguisticoEntradaBean.termosDaVariavel}"
+                                 paginator="false" styleClass="semBorda">
+                        
+                        <f:facet name="header">
+                            Termos da Variável
+                        </f:facet>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{termo.nome}" />
+                        </p:column>
+
+                        <p:column rendered="false">
+                            <f:facet name="header">
+                                <h:outputText value="Cor" />
+                            </f:facet>
+                            <h:outputText value="#{termo.cor}" />
+                        </p:column>
+
+                        <p:column style="width:40px">
+                            <h:panelGrid columns="3" styleClass="actions" cellpadding="2">
+                                <p:commandButton action="#{termoLinguisticoEntradaBean.carregaTermo(termoLinguisticoEntradaBean.variavelEntrada.codigo)}" value="==>" ajax="false" update=":formTermo" immediate="true" style="width: 45px;">
+                                    <f:setPropertyActionListener value="#{termo}" target="#{termoLinguisticoEntradaBean.termo}"/>
+                                </p:commandButton>
+                                
+                                <p:commandButton action="#{termoLinguisticoEntradaBean.excluir()}" value="x" ajax="false" update=":formTermo" immediate="true" style="width: 45px;">
+                                    <f:setPropertyActionListener value="#{termo}" target="#{termoLinguisticoEntradaBean.termo}"/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:column>
+                        
+                    </p:dataTable>
+
+                </h:form>  
+                
+                <h:form id="formTermo">
+                    <p:panelGrid columns="2" styleClass="semBorda">
+
+                            <h:outputLabel for="funcao" value="Função:" />
+                            <f:ajax listener="#{termoLinguisticoEntradaBean.atualizaCamposForm(evt)}"
+                                    render="formTermo">
+                                <p:selectOneMenu id="funcao" value="#{termoLinguisticoEntradaBean.termo.funcao}"
+                                                 immediate="true" binding="#{termoLinguisticoEntradaBean.inputFuncao}"
+                                                label="funcao" required="true" requiredMessage="Função obrigatória"
+                                                style="width: 130px;" >
+
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>
+                                    <f:selectItem itemLabel="Triangular" itemValue="triangular"/>
+                                    <f:selectItem itemLabel="Trapezoidal" itemValue="trapezoidal"/>
+                                    <f:selectItem itemLabel="Rampa esquerda" itemValue="rampaesquerda"/>
+                                    <f:selectItem itemLabel="Rampa direita" itemValue="rampadireita"/>
+                                    <f:selectItem itemLabel="Inclinaçao esquerda" itemValue="inclinacaoesquerda"/>
+                                    <f:selectItem itemLabel="Inclinaçao direita" itemValue="inclinacaodireita"/>
+                                    <f:selectItem itemLabel="Discreto" itemValue="discreto"/>
+
+                                </p:selectOneMenu>
+                            </f:ajax>
+                            
+                            <h:outputLabel for="nomet" value="Nome:" />
+                            <p:inputText value="#{termoLinguisticoEntradaBean.termo.nome}" 
+                                            id="nomet" required="true" label="nome"
+                                            requiredMessage="Nome obrigatório"/>
+                            
+                            <h:outputLabel for="cor" value="Cor:" rendered="false"/>
+                            <p:selectOneListbox id="cor" value="#{termoLinguisticoEntradaBean.termo.cor}"
+                                                label="cor" required="true" requiredMessage="Cor obrigatória"
+                                                rendered="false">
+
+                                <f:selectItem itemLabel="Azul" itemValue="azul"/>
+                                <f:selectItem itemLabel="Verde" itemValue="verde"/>
+                                <f:selectItem itemLabel="Amarelo" itemValue="amarelo"/>
+                                <f:selectItem itemLabel="Vermelho" itemValue="vermelho"/>
+                                <f:selectItem itemLabel="Preto" itemValue="preto"/>
+
+                            </p:selectOneListbox>
+
+                            <h:outputLabel for="valora" value="Valor A:" rendered="#{termoLinguisticoEntradaBean.rvalora}"/>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.termo.valora}"
+                                         rendered="#{termoLinguisticoEntradaBean.rvalora}"
+                                         id="valora" label="valora" required="true"
+                                            requiredMessage="Valor de A obrigatório"/>
+
+                            <h:outputLabel for="valorb" value="Valor B:" rendered="#{termoLinguisticoEntradaBean.rvalorb}"/>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.termo.valorb}" 
+                                         rendered="#{termoLinguisticoEntradaBean.rvalorb}"
+                                            id="valorb" label="valorb" required="true"
+                                            requiredMessage="Valor de B obrigatório"/>
+
+                            <h:outputLabel for="valorc" value="Valor C:" rendered="#{termoLinguisticoEntradaBean.rvalorc}"/>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.termo.valorc}"
+                                         rendered="#{termoLinguisticoEntradaBean.rvalorc}"
+                                            id="valorc" label="valorc" required="true"
+                                            requiredMessage="Valor de C obrigatório"/>
+
+                            <h:outputLabel for="valord" value="Valor D:" rendered="#{termoLinguisticoEntradaBean.rvalord}"/>
+                            <p:inputText value="#{termoLinguisticoEntradaBean.termo.valord}"
+                                         rendered="#{termoLinguisticoEntradaBean.rvalord}"
+                                            id="valord" label="valord" required="true"
+                                            requiredMessage="Valor de D obrigatório"/>
+                            
+                            <!--<h:outputText/>
+                            <p:commandButton id="btVisualizar" value="Visualizar Gráfico" actionListener="{termoLinguisticoEntradaBean.geraGrafico()}" ajax="false" immediate="true"/>
+                            -->                            
+                            <f:facet name="footer">
+                            <center>
+                                <p:commandButton id="btSalvarTermo" value="Salvar" update=":growl" 
+                                                 actionListener="#{termoLinguisticoEntradaBean.salvar(aplicacaoBean.projeto.codigo)}" ajax="false"/>
+                                
+                                <p:commandButton value="Cancelar" action="#{termoLinguisticoEntradaBean.cancelarTermoCorrente()}" ajax="false" immediate="true"/>
+                            </center>
+                            </f:facet>
+                        </p:panelGrid>
+                    
+                    </h:form>
+
+
+                        <p:panelGrid columns="1">
+                            <f:facet name="header">
+                                <h:outputText value="Visualização gráfica"/>
+                            </f:facet>
+                            
+                            <p:lineChart id="linear" value="#{graficosEntradaBean.linearModel}" legendPosition="e" rendered="#{termoLinguisticoEntradaBean.termosDaVariavel.size() > 0}"
+                                         title="Gráfico de fuzzificação" style="height: 300px; width: 650px;"
+                                         minY="0" maxY="1.33333333333333"
+                                         minX="#{graficosEntradaBean.variavelentrada.minimo}" maxX="#{graficosEntradaBean.variavelentrada.maximo}"/>
+                            
+                        </p:panelGrid>
+                
+                        <f:facet name="footer">
+                            <center>
+                            <h:form>
+                                <p:commandButton id="btFechar" value="Fechar" action="#{termoLinguisticoEntradaBean.cancelar()}" ajax="false"/>
+                            </h:form>
+                            </center>
+                        </f:facet>
+                </p:panelGrid>
+            
+            <h:form id="form">
+            <center>
+                <h:inputHidden value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoEdicao" size="1" readonly="true"/>
+                <h:inputHidden value="#{aplicacaoBean.usuario.codigo}" id="userLogadoEdicao" size="1" readonly="true"/>
+            </center>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

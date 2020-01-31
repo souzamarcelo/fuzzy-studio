@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:video="http://java.sun.com/jsf/composite/componentes">
+    
+    <ui:composition template="../templates/tptedicao.xhtml">
+        <ui:define name="editaoque">Variáveis de Saída</ui:define>
+        <ui:define name="centro">
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <br/>
+            <p:panelGrid columns="1">
+                <h:form>
+                    <p:panelGrid columns="2" styleClass="semBorda">
+
+                        <h:outputLabel for="nome" value="Nome:" />
+                        <p:inputText value="#{variavelSaidaBean.variavel.nome}" 
+                                        id="nome" required="true" label="nome"
+                                        requiredMessage="Nome obrigatório"/>
+
+                        <h:outputLabel for="minimo" value="De:" />
+                        <p:inputText value="#{variavelSaidaBean.variavel.minimo}" 
+                                        id="minimo" required="true" label="minimo"
+                                        requiredMessage="Valor mínimo obrigatório"/>
+
+                        <h:outputLabel for="maximo" value="Até:" />
+                        <p:inputText value="#{variavelSaidaBean.variavel.maximo}" 
+                                        id="maximo" required="true" label="maximo"
+                                        requiredMessage="Valor máximo obrigatório"/>
+
+                        <h:outputLabel for="unidade" value="Unidade medida:" />
+                        <p:inputText value="#{variavelSaidaBean.variavel.unidade}" 
+                                        id="unidade" required="false" label="unidade"/>
+
+                        <f:facet name="footer">
+                            <center>
+                                <p:commandButton id="btSalvar" value="Salvar" update=":growl" ajax="false" 
+                                                 action="#{variavelSaidaBean.salvar()}">
+                                    <f:setPropertyActionListener value="#{aplicacaoBean.projeto}" target="#{variavelSaidaBean.variavel.projeto}"/>
+                                </p:commandButton>
+                                
+                                <p:commandButton id="btCancelar" value="Fechar" action="#{variavelSaidaBean.cancelar()}" immediate="true" ajax="false"/>
+                            </center>
+                        </f:facet>
+
+                    </p:panelGrid>
+                </h:form>
+            </p:panelGrid>
+            <br/>
+            
+            <h:panelGroup>
+                    <h:form id="form">
+                        <p:dataTable id="tabelaRegras" var="saida" value="#{variavelSaidaBean.retornaVariaveisPeloProjeto(aplicacaoBean.projeto.codigo)}" paginator="false">
+                        
+                        <f:facet name="header">
+                            Variáveis de saída criadas
+                        </f:facet>
+
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{saida.nome}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Mínimo" />
+                            </f:facet>
+                            <h:outputText value="#{saida.minimo}" />
+                        </p:column>
+                            
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Máximo" />
+                            </f:facet>
+                            <h:outputText value="#{saida.maximo}" />
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Unidade" />
+                            </f:facet>
+                            <h:outputText value="#{saida.unidade}" />
+                        </p:column>
+                            
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ações" />
+                            </f:facet>
+                            
+                            <p:commandButton id="btEditar1" action="#{variavelSaidaBean.editar()}" icon="ui-icon-pencil" title="Editar" ajax="false"/>
+
+                            <p:commandButton id="btExcluir1" action="#{variavelSaidaBean.excluir()}" icon="ui-icon-cancel" title="Excluir" ajax="false"/>
+
+                            <p:commandButton id="btTermo1" action="#{termoLinguisticoSaidaBean.atualizaTermos(saida.codigo)}" icon="ui-icon-search" title="Termo" ajax="false"/>
+                        </p:column>
+                        
+                    </p:dataTable>
+                        
+                        <center>
+                            <h:inputHidden value="#{aplicacaoBean.projeto.codigo}" id="codigoProjetoEdicao" size="1" readonly="true"/>
+                            <h:inputHidden value="#{aplicacaoBean.usuario.codigo}" id="userLogadoEdicao" size="1" readonly="true"/>
+                        </center>
+                        
+                    </h:form>
+                </h:panelGroup>
+            
+        </ui:define>
+    </ui:composition>
+</html>
