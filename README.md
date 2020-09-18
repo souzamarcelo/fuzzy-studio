@@ -10,7 +10,7 @@ Currently, FuzzyStudio is not running anywhere. This repository provides the com
 
 **Bibtex**
 
-```
+```bibtex
 @article{SouzaEtAl2014fuzzy,
    title        = {FuzzyStudio: A Web Tool for Modeling and Simulation of Fuzzy Systems},
    author       = {Souza, Marcelo and Santos, Fernando and Soto, Adolfo Rodr{\'i}guez and Vahldick, Adilson},
